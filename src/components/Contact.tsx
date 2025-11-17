@@ -18,9 +18,28 @@ const Contact = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const message = `Hi, I'm ${formData.name}. I'd like to book a ${formData.carRequired} from ${formData.fromDate} to ${formData.toDate}. ${formData.message}`;
-    window.open(`https://wa.me/918790496444?text=${encodeURIComponent(message)}`, "_blank");
-    toast.success("Redirecting to WhatsApp...");
+    
+    // Format dates for better readability
+    const fromDate = formData.fromDate || "Not specified";
+    const toDate = formData.toDate || "Not specified";
+    const additionalMessage = formData.message ? ` Additional message: ${formData.message}` : "";
+    
+    const message = `Hi, I'm ${formData.name}. Phone: ${formData.phone}. I'd like to book a ${formData.carRequired} from ${fromDate} to ${toDate}.${additionalMessage}`;
+    
+    const whatsappUrl = `https://wa.me/918790496444?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, "_blank");
+    
+    toast.success("Opening WhatsApp...");
+    
+    // Reset form after submission
+    setFormData({
+      name: "",
+      phone: "",
+      carRequired: "",
+      fromDate: "",
+      toDate: "",
+      message: "",
+    });
   };
 
   const handleCall = () => {
